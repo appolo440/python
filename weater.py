@@ -1,16 +1,13 @@
-# -*- coding: utf-8 -*-
+import xml.dom.minidom
+dom = xml.dom.minidom.parse("37.xml");
+dom.normalize()
 
-import subprocess
-subprocess.call('wget -q http://xml.meteoservice.ru/export/gismeteo/point/37.xml', shell=True)
+node1 = dom.getElementsByTagName("HEAT")[0]
 
-f = open ('37.xml', 'r')
-line = f.readlines()
+a = node1.getAttribute("min")
+b = node1.getAttribute("max")
 
-tempall = line[7]
-print(tempall[22:24] + ' ' + tempall[31:33])
-
-tempheat = line[11]
-print(tempheat[25:28])
-
-f.close()
-subprocess.call('rm 37.xml', shell=True)
+if a >= b:
+ print a
+else:
+ print b
