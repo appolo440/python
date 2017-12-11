@@ -23,10 +23,8 @@ def CUSTOMPORT():
 			print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Service is up")
 		else:
 			print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Service is down")
-
 			print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Try to restart service")
 			os.popen('sudo service ssh restart')
 
 	PG_STATUS = PG_CURRENT
-
 CUSTOMPORT()
