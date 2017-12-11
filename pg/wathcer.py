@@ -1,32 +1,32 @@
-#!/usr/bin/python3.5
+#!/usr/bin/python3.4
+
 import socket
 import threading
+import datetime
 import os
 
-class Clicker(object):
-        prev_button = None
-        def click(self, button=None):
-                if button != self.prev_button:
-                        self.prev_button = button
-                        print(button)
+PG_STATUS = None
+
+CURRENT_DATE = datetime.datetime.now()
+print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Start watch on service")
 
 def CUSTOMPORT():
-        threading.Timer(0.5, CUSTOMPORT).start()
+	global PG_STATUS
+	CURRENT_DATE = datetime.datetime.now()
 
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        result = sock.connect_ex(("192.168.1.10",80))
-        if result == 0:
-                clc.click("Service is up")
-        else:
-                clc.click("Service is down")
-                os.popen('service nginx start')
+	threading.Timer(0.5, CUSTOMPORT).start()
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	PG_CURRENT = sock.connect_ex(("localhost",22))
 
-#       proc = os.popen('ps uax').read()
-#       if proc.find("postgres") == -1:
-#               clc.click("Service is down")
-#               os.popen('service postgresql start')
-#       else:
-#               clc.click("Service is up")
+	if PG_STATUS != PG_CURRENT:
+		if PG_CURRENT == 0:
+			print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Service is up")
+		else:
+			print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Service is down")
 
-clc = Clicker()
+			print (CURRENT_DATE.strftime("%d.%m.%Y %H:%M:%S") + " Try to restart service")
+			os.popen('sudo service ssh restart')
+
+	PG_STATUS = PG_CURRENT
+
 CUSTOMPORT()
